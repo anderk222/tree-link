@@ -8,7 +8,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://anderk222.info/static/Semantic-UI-CSS-master/semantic.css" rel="stylesheet" />
+    <link href="https://anderk222.info/static/Semantic-UI-CSS-master/semantic.min.css" rel="stylesheet" />
     <script src="https://anderk222.info/static/Semantic-UI-CSS-master/semantic.min.js"></script>
     <style>
         .no-drag {
@@ -26,7 +26,7 @@
         <div id="tree" class="ui relaxed divided list w-96 " ondragenter="handlerDragEnter(event)"
             ondragleave="handlerDragLeave(event)" ondragstart="handlerDragStart(event)">
 
-            <div draggable="true" class="item p-2" id="portafolio">
+            <div draggable="true" class="item" id="portafolio">
                 <img class="ui avatar image no-drag " src="https://cdn-icons-png.flaticon.com/128/2683/2683274.png">
                 <div class="content no-drag">
                     <a class="header no-drag" target='__blank'>Portafolio</a>
@@ -159,7 +159,7 @@
 
             const form = new FormData(event.target);
 
-            const btn = document.getElementById('add-btn');
+            const btn = document.getElementById('add-btn-container');
 
             btn.before(createElement(form
                 .get('name'), form.get('url'), form.get('img')));
@@ -195,7 +195,7 @@
 
             const cuerpo = `                
                           <img class="ui avatar image" src="${img || imgDefault}">
-                         <div class="content">
+                          <div class="content">
                             <a target='__blank' href='${url}' class="header">${name}</a>
                           </div>`;
 
@@ -207,7 +207,7 @@
         document.addEventListener('DOMContentLoaded', () => {
 
             const addBtn = `<button 
-                             id="add-btn" onclick="handlerAdd(event)" 
+                            onclick="handlerAdd(event)" 
                              class="ui positive basic button small" >
                                Add Item
                             </button>`
@@ -221,7 +221,6 @@
             const parser = new DOMParser();
 
             if (testMode) container.innerHTML = addBtn;
-
 
         })
 
