@@ -8,9 +8,8 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="http://localhost/Semantic-UI-CSS-master/semantic.css" rel="stylesheet" />
-    <script src="http://localhost/Semantic-UI-CSS-master/semantic.min.js"></script>
-
+    <link href="https://anderk222.info/static/Semantic-UI-CSS-master/semantic.css" rel="stylesheet" />
+    <script src="https://anderk222.info/static/Semantic-UI-CSS-master/semantic.min.js"></script>
     <style>
         .no-drag {
             pointer-events: initial;
@@ -30,10 +29,8 @@
             <div draggable="true" class="item p-2" id="portafolio">
                 <img class="ui avatar image no-drag " src="https://cdn-icons-png.flaticon.com/128/2683/2683274.png">
                 <div class="content no-drag">
-                    <a class="header no-drag"
-                    target='__blank'
-                    >Portafolio</a>
-                    <p class="text-xs" >Shows my skills</p>
+                    <a class="header no-drag" target='__blank'>Portafolio</a>
+                    <p class="text-xs">Shows my skills</p>
                 </div>
             </div>
 
@@ -41,22 +38,18 @@
                 <img class="ui avatar image transition-all"
                     src="https://cdn-icons-png.flaticon.com/128/1051/1051326.png">
                 <div class="content">
-                    <a class="header"
-                    target='__blank'
-                    href="https://github.com/anderk222/"
-                    >GitHub</a>
+                    <a class="header" target='__blank' href="https://github.com/anderk222/">GitHub</a>
                 </div>
             </div>
 
             <div draggable="true" class="item" id="Linkedin">
                 <img class="ui avatar image" src="https://cdn-icons-png.flaticon.com/128/3536/3536505.png">
                 <div class="content">
-                    <a 
-                    href="https://www.linkedin.com/in/anderson-macias-29abaa223/"
-                    target='__blank' class="header">Linkedin</a>
+                    <a href="https://www.linkedin.com/in/anderson-macias-29abaa223/" target='__blank'
+                        class="header">Linkedin</a>
                 </div>
             </div>
-            <div id="add-btn-container" >
+            <div id="add-btn-container">
 
             </div>
 
@@ -169,7 +162,7 @@
             const btn = document.getElementById('add-btn');
 
             btn.before(createElement(form
-            .get('name'), form.get('url'), form.get('img')));
+                .get('name'), form.get('url'), form.get('img')));
 
 
             event.target.reset();
@@ -211,23 +204,23 @@
             return element;
         }
 
-        document.addEventListener('DOMContentLoaded', ()=>{
+        document.addEventListener('DOMContentLoaded', () => {
 
             const addBtn = `<button 
                              id="add-btn" onclick="handlerAdd(event)" 
                              class="ui positive basic button small" >
                                Add Item
                             </button>`
-            
+
             const container = document.getElementById('add-btn-container');
 
             const param = new URLSearchParams(window.location.search);
 
-            let testMode =Boolean(param.get('test'));
-            
+            let testMode = Boolean(param.get('test'));
+
             const parser = new DOMParser();
 
-            if(testMode) container.innerHTML=addBtn;
+            if (testMode) container.innerHTML = addBtn;
 
 
         })
