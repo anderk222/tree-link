@@ -23,8 +23,7 @@
 
         <h1>Tree link Anderson Macias</h1>
 
-        <div id="tree" class="ui relaxed divided list w-96 " ondragenter="handlerDragEnter(event)"
-            ondragleave="handlerDragLeave(event)" ondragstart="handlerDragStart(event)">
+        <div id="tree" class="ui relaxed divided pt-72 list w-96">
 
             <div draggable="true" class="item" id="portafolio">
                 <img class="ui avatar image no-drag " src="https://cdn-icons-png.flaticon.com/128/2683/2683274.png">
@@ -44,7 +43,7 @@
 
             <div draggable="true" class="item" id="Linkedin">
                 <img class="ui avatar image" src="https://cdn-icons-png.flaticon.com/128/3536/3536505.png">
-                <div class="content">
+                <div class="content no-drag">
                     <a href="https://www.linkedin.com/in/anderson-macias-29abaa223/" target='__blank'
                         class="header">Linkedin</a>
                 </div>
@@ -52,8 +51,6 @@
             <div id="add-btn-container">
 
             </div>
-
-
         </div>
     </div>
     <div>
@@ -88,7 +85,7 @@
         /**
          * @param {DragEvent} event
          */
-        function handlerDragEnter(event) {
+        function handlerDragDrop(event) {
 
             event.preventDefault();
 
@@ -97,9 +94,9 @@
              */
             let target = event.target;
 
-            let id = event.dataTransfer.getData('application/dragged');
+            let id = event.dataTransfer.getData('application/tree');
 
-            if (!id) return;
+            if (!id || id === 'null') return;
 
             if (target.draggable) {
 
@@ -110,13 +107,9 @@
                         .getElementById(id)
                     );
 
-            } else {
-
-
-                if (target.getAttribute('href')) {
-                    target.parentElement.classList.add('bg-violet-100')
-                }
             }
+
+
 
         }
 
@@ -124,6 +117,8 @@
           * @param {DragEvent} event
           */
         function handlerDragLeave(event) {
+
+            event.preventDefault();
 
             /**
              * @type {HTMLElement}
@@ -146,8 +141,35 @@
              */
             let element = event.target;
 
-            event.dataTransfer.setData('application/dragged', element.id);
 
+            event.dataTransfer.setData('application/tree', element.getAttribute('id'));
+
+        }
+
+        /**
+        * @param {DragEvent} event
+        */
+        function handlerOver(event) {
+
+            event.preventDefault();
+
+            /**
+            * @type {HTMLElement}
+            */
+            let target = event.target;
+
+            if (target.draggable) {
+
+                target.classList.add('bg-violet-100');
+
+
+            } else {
+
+
+                if (target.getAttribute('href')) {
+                    target.parentElement.classList.add('bg-violet-100')
+                }
+            }
         }
 
         /**
@@ -192,7 +214,6 @@
             element.id = self.crypto.randomUUID();
 
 
-
             const cuerpo = `                
                           <img class="ui avatar image" src="${img || imgDefault}">
                           <div class="content">
@@ -205,6 +226,14 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+
+            showAddItemBtn();
+
+            setTupdragAndDrop();
+
+        });
+
+        function showAddItemBtn() {
 
             const addBtn = `<button 
                             onclick="handlerAdd(event)" 
@@ -222,7 +251,22 @@
 
             if (testMode) container.innerHTML = addBtn;
 
-        })
+        }
+
+
+        function setTupdragAndDrop() {
+
+            const container = document.getElementById('tree');
+
+            // container.addEventListener('dragenter', handlerDragDrop);
+            container.addEventListener('drop', handlerDragDrop);
+            container.addEventListener('dragleave', handlerDragLeave);
+            container.addEventListener('dragover', handlerOver);
+            container.addEventListener('dragstart', handlerDragStart);
+            // container.addEventListener('drop', handlerDragLeave);
+
+
+        }
 
     </script>
 
