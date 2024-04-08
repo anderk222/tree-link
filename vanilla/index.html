@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tree anderk222</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="http://localhost/Semantic-UI-CSS-master/semantic.css" rel="stylesheet" />
+    <script src="http://localhost/Semantic-UI-CSS-master/semantic.min.js"></script>
+
+    <style>
+        .no-drag {
+            pointer-events: initial;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="flex flex-col h-screen text-zinc-700 items-center  justify-center flex-wrap bg-zinc-50">
+
+        <h1>Tree link Anderson Macias</h1>
+
+        <div id="tree" class="ui relaxed divided list w-96 " ondragenter="handlerDragEnter(event)"
+            ondragleave="handlerDragLeave(event)" ondragstart="handlerDragStart(event)">
+
+            <div draggable="true" class="item p-2" id="portafolio">
+                <img class="ui avatar image no-drag " src="https://cdn-icons-png.flaticon.com/128/2683/2683274.png">
+                <div class="content no-drag">
+                    <a class="header no-drag"
+                    target='__blank'
+                    >Portafolio</a>
+                    <p class="text-xs" >Shows my skills</p>
+                </div>
+            </div>
+
+            <div draggable="true" class="item" id="github">
+                <img class="ui avatar image transition-all"
+                    src="https://cdn-icons-png.flaticon.com/128/1051/1051326.png">
+                <div class="content">
+                    <a class="header"
+                    target='__blank'
+                    href="https://github.com/anderk222/"
+                    >GitHub</a>
+                </div>
+            </div>
+
+            <div draggable="true" class="item" id="Linkedin">
+                <img class="ui avatar image" src="https://cdn-icons-png.flaticon.com/128/3536/3536505.png">
+                <div class="content">
+                    <a 
+                    href="https://www.linkedin.com/in/anderson-macias-29abaa223/"
+                    target='__blank' class="header">Linkedin</a>
+                </div>
+            </div>
+            <div id="add-btn-container" >
+
+            </div>
+
+
+        </div>
+    </div>
+    <div>
+        <div class="ui modal mini">
+            <div class="header ">New Item</div>
+            <div class="content">
+                <form class="ui form" onsubmit="handlerSubmit(event)">
+                    <div class="field">
+                        <label>Name</label>
+                        <input type="text" name="name" placeholder="First Name">
+                    </div>
+                    <div class="img">
+                        <label>Icon Img</label>
+                        <input type="text" name="img" placeholder="Last Name">
+                    </div>
+                    <div class="field">
+                        <label>URL</label>
+                        <input type="text" name="url" placeholder="Last Name">
+                    </div>
+                    <div class="actions">
+                        <button class="ui approve button tiny" type="submit">Accept</button>
+                        <button class="ui cancel button tiny" type="reset">Cancel</button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <script>
+
+        /**
+         * @param {DragEvent} event
+         */
+        function handlerDragEnter(event) {
+
+            event.preventDefault();
+
+            /**
+             * @type {HTMLElement}
+             */
+            let target = event.target;
+
+            let id = event.dataTransfer.getData('application/dragged');
+
+            if (!id) return;
+
+            if (target.draggable) {
+
+                target.classList.add('bg-violet-100');
+
+                target
+                    .before(document
+                        .getElementById(id)
+                    );
+
+            } else {
+
+
+                if (target.getAttribute('href')) {
+                    target.parentElement.classList.add('bg-violet-100')
+                }
+            }
+
+        }
+
+        /**
+          * @param {DragEvent} event
+          */
+        function handlerDragLeave(event) {
+
+            /**
+             * @type {HTMLElement}
+             */
+            let target = event.target;
+
+            if (!target.draggable) return;
+
+            target.classList.remove('bg-violet-100');
+
+        }
+
+        /**
+         * @param {DragEvent} event
+         */
+        function handlerDragStart(event) {
+
+            /**
+             * @type {HTMLDivElement}
+             */
+            let element = event.target;
+
+            event.dataTransfer.setData('application/dragged', element.id);
+
+        }
+
+        /**
+         * @param {SubmitEvent} event
+         */
+        function handlerSubmit(event) {
+
+            event.preventDefault();
+
+            const form = new FormData(event.target);
+
+            const btn = document.getElementById('add-btn');
+
+            btn.before(createElement(form
+            .get('name'), form.get('url'), form.get('img')));
+
+
+            event.target.reset();
+
+        }
+
+        /**
+         * @param {Event} event
+         */
+        function handlerAdd(event) {
+
+            $('.ui.mini.modal')
+                .modal('show');
+        }
+
+        /**
+         * @param {String} name texto del item
+         * @param {String} url url a la que va a apuntar el link
+         */
+        function createElement(name, url, img) {
+
+            let element = document.createElement('div');
+
+            element.classList.add('item');
+            element.draggable = true;
+
+            element.id = self.crypto.randomUUID();
+
+
+
+            const cuerpo = `                
+                          <img class="ui avatar image" src="${img || imgDefault}">
+                         <div class="content">
+                            <a target='__blank' href='${url}' class="header">${name}</a>
+                          </div>`;
+
+            element.innerHTML = cuerpo;
+
+            return element;
+        }
+
+        document.addEventListener('DOMContentLoaded', ()=>{
+
+            const addBtn = `<button 
+                             id="add-btn" onclick="handlerAdd(event)" 
+                             class="ui positive basic button small" >
+                               Add Item
+                            </button>`
+            
+            const container = document.getElementById('add-btn-container');
+
+            const param = new URLSearchParams(window.location.search);
+
+            let testMode =Boolean(param.get('test'));
+            
+            const parser = new DOMParser();
+
+            if(testMode) container.innerHTML=addBtn;
+
+
+        })
+
+    </script>
+
+</body>
+
+</html>
